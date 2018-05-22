@@ -15,6 +15,7 @@ Parameters
 * `windows_reboot_allowed`: Determines if reboot of windows machines is allowed.
   When it is set to false and reboot is pending, it will stop execution of the playbook.
   Useful to check before installing updates or installing software.
+* `windows_pending_reboot_fail`: Allows to fail playbook if reboot is required but not allowed.
 
 Example
 -------
@@ -23,6 +24,7 @@ Example
 - hosts: win_servers
   vars:
     windows_reboot_allowed: false
+    windows_pending_reboot_fail: true
 
   roles:
     - role: valerius257.windows-pending-reboot

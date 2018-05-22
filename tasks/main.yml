@@ -5,14 +5,26 @@
   changed_when: pending_reboot.stdout_lines[0] != 'False'
   notify: reboot windows
 
+- name: fail when reboot is not allowed
+  fail:
+    msg: "playbook for {{ inventory_hostname }} will be failed because reboot is required but not allowed"
+  when:
+    - pending_reboot.changed
+    - not windows_reboot_allowed
+    - windows_pending_reboot_fail
+
 - name: notify about playbook stop
   debug:
     msg: "playbook for {{ inventory_hostname }} will be stopped because reboot is required but not allowed"
-  when: pending_reboot.changed and not windows_reboot_allowed
+  when:
+    - pending_reboot.changed
+    - not windows_reboot_allowed
 
 - name: ending playbook because reboot is not allowed
   meta: end_play
-  when: pending_reboot.changed and not windows_reboot_allowed
+  when:
+    - pending_reboot.changed
+    - not windows_reboot_allowed
 
 - name: run all notified handlers
   meta: flush_handlers
