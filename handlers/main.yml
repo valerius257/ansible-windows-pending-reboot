@@ -3,4 +3,4 @@
   win_reboot:
     reboot_timeout: 9000
     post_reboot_delay: 20
-  when: windows_reboot_allowed
+  when: windows_reboot_allowed|bool
